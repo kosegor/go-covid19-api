@@ -3,7 +3,7 @@ package usecase
 import (
 	"github.com/kosegor/go-covid19-api/app/domain/model"
 	"github.com/kosegor/go-covid19-api/app/domain/repository"
-	"github.com/kosegor/minesweeper/app/interface/apierr"
+	"github.com/kosegor/go-covid19-api/app/interface/apierr"
 )
 
 type InfectedUsecase interface {

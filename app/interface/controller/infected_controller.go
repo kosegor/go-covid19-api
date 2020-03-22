@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -12,7 +13,7 @@ type InfectedController struct {
 	Usecase usecase.InfectedUsecase
 }
 
-func (i InfectedController) Post(c *gin.Context) {
+func (i *InfectedController) Post(c *gin.Context) {
 	var newInfected model.Infected
 	err := c.BindJSON(&newInfected)
 
@@ -32,8 +33,10 @@ func (i InfectedController) Post(c *gin.Context) {
 	return
 }
 
-func (i InfectedController) List(c *gin.Context) {
+func (i *InfectedController) List(c *gin.Context) {
+	fmt.Println("ANTES")
 	infecteds, apiError := i.Usecase.List()
+	fmt.Println("DESPUES")
 
 	if apiError != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, apiError.Error())
