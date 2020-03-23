@@ -5,7 +5,7 @@ import (
 	"github.com/kosegor/go-covid19-api/app/interface/apierr"
 )
 
-type InfectedRepository interface {
-	Insert(*model.Infected) *apierr.ApiError
-	FindAll() ([]*model.Infected, *apierr.ApiError)
+type IncidentRepository interface {
+	Insert(*model.Incident) *apierr.ApiError
+	FindAll() ([]*model.Incident, *apierr.ApiError)
 }

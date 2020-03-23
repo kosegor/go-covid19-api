@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -9,40 +8,44 @@ import (
 	"github.com/kosegor/go-covid19-api/app/usecase"
 )
 
-type InfectedController struct {
-	Usecase usecase.InfectedUsecase
+type IncidentController struct {
+	Usecase usecase.IncidentUsecase
 }
 
-func (i *InfectedController) Post(c *gin.Context) {
-	var newInfected model.Infected
-	err := c.BindJSON(&newInfected)
+func (i *IncidentController) Post(c *gin.Context) {
+	var newIncident model.Incident
+	err := c.BindJSON(&newIncident)
 
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	newInfected, apiError := i.Usecase.Post(newInfected)
+	err = newIncident.Validate()
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	newIncident, apiError := i.Usecase.Post(newIncident)
 
 	if apiError != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, apiError.Error())
 		return
 	}
 
-	c.JSON(http.StatusCreated, newInfected)
+	c.JSON(http.StatusCreated, newIncident)
 	return
 }
 
-func (i *InfectedController) List(c *gin.Context) {
-	fmt.Println("ANTES")
-	infecteds, apiError := i.Usecase.List()
-	fmt.Println("DESPUES")
+func (i *IncidentController) List(c *gin.Context) {
+	incidents, apiError := i.Usecase.List()
 
 	if apiError != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, apiError.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, infecteds)
+	c.JSON(http.StatusOK, incidents)
 	return
 }

@@ -6,7 +6,7 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation"
 )
 
-type Infected struct {
+type Incident struct {
 	ID                 int     `json:"id"`
 	Name               string  `json:"name"`
 	Surname            string  `json:"surname"`
@@ -17,7 +17,7 @@ type Infected struct {
 	Date               string  `json:"date"`
 }
 
-func (i Infected) Validate() error {
+func (i Incident) Validate() error {
 	return validation.ValidateStruct(&i,
 		validation.Field(&i.Name, validation.Required),
 		validation.Field(&i.Surname, validation.Required),

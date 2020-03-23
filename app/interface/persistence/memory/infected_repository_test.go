@@ -7,8 +7,8 @@ import (
 	"github.com/kosegor/go-covid19-api/app/domain/model"
 )
 
-func TestInfectedRepositoryInsertAndFindAll(t *testing.T) {
-	infected := model.Infected{
+func TestIncidentRepositoryInsertAndFindAll(t *testing.T) {
+	incident := model.Incident{
 		Name:               "Andres",
 		Surname:            "Gomez",
 		Latitude:           -34.583863,
@@ -18,16 +18,16 @@ func TestInfectedRepositoryInsertAndFindAll(t *testing.T) {
 		Date:               time.Now().Format(time.RFC3339),
 	}
 
-	repo := NewInfectedRepository()
-	repo.Insert(&infected)
+	repo := NewIncidentRepository()
+	repo.Insert(&incident)
 
-	infecteds, _ := repo.FindAll()
+	incidents, _ := repo.FindAll()
 
-	if len(infecteds) != 1 {
-		t.Error("Failed: the infected didn't save")
+	if len(incidents) != 1 {
+		t.Error("Failed: the incident didn't save")
 	}
 
-	if infecteds[0].Name != infected.Name {
-		t.Errorf("Failed: expected name [%s] but got [%s]", infected.Name, infecteds[0].Name)
+	if incidents[0].Name != incident.Name {
+		t.Errorf("Failed: expected name [%s] but got [%s]", incident.Name, incidents[0].Name)
 	}
 }

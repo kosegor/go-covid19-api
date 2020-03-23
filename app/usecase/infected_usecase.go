@@ -6,26 +6,26 @@ import (
 	"github.com/kosegor/go-covid19-api/app/interface/apierr"
 )
 
-type InfectedUsecase interface {
-	Post(infected model.Infected) (model.Infected, *apierr.ApiError)
-	List() ([]*model.Infected, *apierr.ApiError)
+type IncidentUsecase interface {
+	Post(incident model.Incident) (model.Incident, *apierr.ApiError)
+	List() ([]*model.Incident, *apierr.ApiError)
 }
 
-type infectedUsecase struct {
-	repo repository.InfectedRepository
+type incidentUsecase struct {
+	repo repository.IncidentRepository
 }
 
-func NewInfectedUsecase(repo repository.InfectedRepository) *infectedUsecase {
-	return &infectedUsecase{
+func NewIncidentUsecase(repo repository.IncidentRepository) *incidentUsecase {
+	return &incidentUsecase{
 		repo: repo,
 	}
 }
 
-func (i *infectedUsecase) Post(infected model.Infected) (model.Infected, *apierr.ApiError) {
-	i.repo.Insert(&infected)
-	return infected, nil
+func (i *incidentUsecase) Post(incident model.Incident) (model.Incident, *apierr.ApiError) {
+	i.repo.Insert(&incident)
+	return incident, nil
 }
 
-func (i *infectedUsecase) List() ([]*model.Infected, *apierr.ApiError) {
+func (i *incidentUsecase) List() ([]*model.Incident, *apierr.ApiError) {
 	return i.repo.FindAll()
 }

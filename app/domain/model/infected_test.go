@@ -5,15 +5,15 @@ import (
 	"time"
 )
 
-func TestInfected_Validate(t *testing.T) {
+func TestIncident_Validate(t *testing.T) {
 	cases := []struct {
 		name     string
-		infected Infected
+		incident Incident
 		errText  string
 	}{
 		{
 			name: "FAIL/NAME_MISSING",
-			infected: Infected{
+			incident: Incident{
 				Surname:            "Gomez",
 				Latitude:           -34.583863,
 				Longitude:          -58.3452797,
@@ -25,7 +25,7 @@ func TestInfected_Validate(t *testing.T) {
 		},
 		{
 			name: "FAIL/SURNAME_MISSING",
-			infected: Infected{
+			incident: Incident{
 				Name:               "Andres",
 				Latitude:           -34.583863,
 				Longitude:          -58.3452797,
@@ -37,7 +37,7 @@ func TestInfected_Validate(t *testing.T) {
 		},
 		{
 			name: "FAIL/LONGITUDE_MISSING",
-			infected: Infected{
+			incident: Incident{
 				Name:               "Andres",
 				Surname:            "Gomez",
 				Latitude:           -34.583863,
@@ -49,7 +49,7 @@ func TestInfected_Validate(t *testing.T) {
 		},
 		{
 			name: "FAIL/LATITUDE_MISSING",
-			infected: Infected{
+			incident: Incident{
 				Name:               "Andres",
 				Surname:            "Gomez",
 				Longitude:          -58.3452797,
@@ -61,7 +61,7 @@ func TestInfected_Validate(t *testing.T) {
 		},
 		{
 			name: "FAIL/COUNTRY_MISSING",
-			infected: Infected{
+			incident: Incident{
 				Name:               "Andres",
 				Surname:            "Gomez",
 				Latitude:           -34.583863,
@@ -73,7 +73,7 @@ func TestInfected_Validate(t *testing.T) {
 		},
 		{
 			name: "FAIL/COUNTRY_OF_RESIDENCE_MISSING",
-			infected: Infected{
+			incident: Incident{
 				Name:      "Andres",
 				Surname:   "Gomez",
 				Latitude:  -34.583863,
@@ -85,7 +85,7 @@ func TestInfected_Validate(t *testing.T) {
 		},
 		{
 			name: "FAIL/DATE_MISSING",
-			infected: Infected{
+			incident: Incident{
 				Name:               "Andres",
 				Surname:            "Gomez",
 				Latitude:           -34.583863,
@@ -97,7 +97,7 @@ func TestInfected_Validate(t *testing.T) {
 		},
 		{
 			name: "FAIL/INVALID_LATITUDE",
-			infected: Infected{
+			incident: Incident{
 				Name:               "Andres",
 				Surname:            "Gomez",
 				Latitude:           -134.583863,
@@ -110,7 +110,7 @@ func TestInfected_Validate(t *testing.T) {
 		},
 		{
 			name: "FAIL/INVALID_LONGITUDE",
-			infected: Infected{
+			incident: Incident{
 				Name:               "Andres",
 				Surname:            "Gomez",
 				Latitude:           -34.583863,
@@ -123,7 +123,7 @@ func TestInfected_Validate(t *testing.T) {
 		},
 		{
 			name: "OK",
-			infected: Infected{
+			incident: Incident{
 				Name:               "Andres",
 				Surname:            "Gomez",
 				Latitude:           -34.583863,
@@ -139,7 +139,7 @@ func TestInfected_Validate(t *testing.T) {
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
 			expectedError := c.errText
-			err := c.infected.Validate()
+			err := c.incident.Validate()
 			if expectedError != "" && expectedError != err.Error() {
 				t.Errorf("%s: expected error message [%s] but got [%s]", c.name, expectedError, err.Error())
 			}

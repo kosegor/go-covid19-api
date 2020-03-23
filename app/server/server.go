@@ -16,19 +16,19 @@ func CreateServer() *gin.Engine {
 	return router
 }
 
-func inicializeRoutes(router *gin.Engine, controller *controller.InfectedController) {
+func inicializeRoutes(router *gin.Engine, controller *controller.IncidentController) {
 
 	router.GET("/ping", func(c *gin.Context) {
 		c.String(http.StatusOK, "pong")
 	})
 
-	router.POST("/infected", controller.Post)
-	router.GET("/infecteds", controller.List)
+	router.POST("/incident", controller.Post)
+	router.GET("/incidents", controller.List)
 }
 
-func createController() *controller.InfectedController {
-	infectedRepository := memory.NewInfectedRepository()
-	return &controller.InfectedController{
-		Usecase: usecase.NewInfectedUsecase(infectedRepository),
+func createController() *controller.IncidentController {
+	incidentRepository := memory.NewIncidentRepository()
+	return &controller.IncidentController{
+		Usecase: usecase.NewIncidentUsecase(incidentRepository),
 	}
 }
