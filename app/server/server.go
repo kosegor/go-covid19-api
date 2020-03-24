@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/kosegor/go-covid19-api/app/interface/controller"
-	"github.com/kosegor/go-covid19-api/app/interface/persistence/memory"
+	"github.com/kosegor/go-covid19-api/app/interface/persistence/dynamo"
 	"github.com/kosegor/go-covid19-api/app/usecase"
 )
 
@@ -27,7 +27,7 @@ func inicializeRoutes(router *gin.Engine, controller *controller.IncidentControl
 }
 
 func createController() *controller.IncidentController {
-	incidentRepository := memory.NewIncidentRepository()
+	incidentRepository := dynamo.NewIncidentRepository()
 	return &controller.IncidentController{
 		Usecase: usecase.NewIncidentUsecase(incidentRepository),
 	}

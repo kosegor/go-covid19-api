@@ -22,8 +22,8 @@ func NewIncidentUsecase(repo repository.IncidentRepository) *incidentUsecase {
 }
 
 func (i *incidentUsecase) Post(incident model.Incident) (model.Incident, *apierr.ApiError) {
-	i.repo.Insert(&incident)
-	return incident, nil
+	err := i.repo.Insert(&incident)
+	return incident, err
 }
 
 func (i *incidentUsecase) List() ([]*model.Incident, *apierr.ApiError) {
