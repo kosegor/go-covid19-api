@@ -10,8 +10,5 @@ func (e ApiError) Error() string {
 }
 
 func NewApiError(message string, status int) *ApiError {
-	return &ApiError{
-		Message: message,
-		Status:  status,
-	}
+	return &ApiError{Message: message, Status: status}
 }
