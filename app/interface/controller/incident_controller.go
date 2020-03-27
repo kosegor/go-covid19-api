@@ -27,14 +27,14 @@ func (i *IncidentController) Post(c *gin.Context) {
 		return
 	}
 
-	newIncident, apiError := i.Usecase.Post(newIncident)
+	savedIncident, apiError := i.Usecase.Post(newIncident)
 
 	if apiError != nil {
 		c.AbortWithStatusJSON(apiError.Status, apiError.Error())
 		return
 	}
 
-	c.JSON(http.StatusCreated, newIncident)
+	c.JSON(http.StatusCreated, savedIncident)
 	return
 }
 

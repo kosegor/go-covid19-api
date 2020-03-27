@@ -5,7 +5,7 @@ import (
 	"github.com/kosegor/go-covid19-api/app/interface/apierr"
 )
 
-type IncidentRepository interface {
+type DynamoRepository interface {
 	Insert(*model.Incident) *apierr.ApiError
 	FindAll() ([]*model.Incident, *apierr.ApiError)
 }

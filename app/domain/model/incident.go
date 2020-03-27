@@ -7,7 +7,7 @@ import (
 )
 
 type Incident struct {
-	ID                 int     `json:"id"`
+	ID                 string  `json:"id"`
 	Name               string  `json:"name"`
 	Surname            string  `json:"surname"`
 	Latitude           float64 `json:"latitude"`

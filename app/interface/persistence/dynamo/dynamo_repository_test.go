@@ -21,7 +21,7 @@ func (m *mockDynamoDBClient) Scan(*dynamodb.ScanInput) (*dynamodb.ScanOutput, er
 	return &dynamodb.ScanOutput{}, nil
 }
 
-func TestIncidentRepository_Insert(t *testing.T) {
+func TestDynamoRepository_Insert(t *testing.T) {
 	mockSvc := &mockDynamoDBClient{}
 	incident := &model.Incident{
 		Name:               "Andres",
@@ -39,7 +39,7 @@ func TestIncidentRepository_Insert(t *testing.T) {
 	}
 }
 
-func TestIncidentRepository_FindAll(t *testing.T) {
+func TestDynamoRepository_FindAll(t *testing.T) {
 	mockSvc := &mockDynamoDBClient{}
 
 	_, err := findAll(mockSvc)

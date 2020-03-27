@@ -7,25 +7,36 @@ import (
 )
 
 type IncidentUsecase interface {
-	Post(incident model.Incident) (model.Incident, *apierr.ApiError)
+	Post(incident model.Incident) (*model.Incident, *apierr.ApiError)
 	List() ([]*model.Incident, *apierr.ApiError)
 }
 
 type incidentUsecase struct {
-	repo repository.IncidentRepository
+	dynamoRepo  repository.DynamoRepository
+	elasticRepo repository.ElasticRepository
 }
 
-func NewIncidentUsecase(repo repository.IncidentRepository) *incidentUsecase {
+func NewIncidentUsecase(dynamoRepo repository.DynamoRepository, elasticRepo repository.ElasticRepository) *incidentUsecase {
 	return &incidentUsecase{
-		repo: repo,
+		dynamoRepo:  dynamoRepo,
+		elasticRepo: elasticRepo,
 	}
 }
 
-func (i *incidentUsecase) Post(incident model.Incident) (model.Incident, *apierr.ApiError) {
-	err := i.repo.Insert(&incident)
-	return incident, err
+func (i *incidentUsecase) Post(incident model.Incident) (*model.Incident, *apierr.ApiError) {
+	inc, err := i.elasticRepo.Insert(&incident)
+	if err != nil {
+		return nil, err
+	}
+
+	err = i.dynamoRepo.Insert(inc)
+	if err != nil {
+		return nil, err
+	}
+
+	return inc, nil
 }
 
 func (i *incidentUsecase) List() ([]*model.Incident, *apierr.ApiError) {
-	return i.repo.FindAll()
+	return i.dynamoRepo.FindAll()
 }

@@ -3,6 +3,7 @@ package dynamo
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/Sirupsen/logrus"
 	"github.com/aws/aws-sdk-go/aws"
@@ -19,29 +20,29 @@ const (
 	IdsTable      = "Ids"
 )
 
-type incidentRepository struct {
+type dynamoRepository struct {
 	service *dynamodb.DynamoDB
 }
 
-func NewIncidentRepository() *incidentRepository {
-	return &incidentRepository{
+func NewIncidentRepository() *dynamoRepository {
+	return &dynamoRepository{
 		service: NewDynamoService(),
 	}
 }
 
-func (i *incidentRepository) Insert(incident *model.Incident) *apierr.ApiError {
-	id, _ := i.getId()
-	id.ID++
-	incident.ID = id.ID
+func (i *dynamoRepository) Insert(incident *model.Incident) *apierr.ApiError {
+	if incident.ID == "" {
+		id, _ := i.getId()
+		id.ID++
+		incident.ID = strconv.Itoa(id.ID)
+		i.updateId(id)
+	}
 
 	err := insert(i.service, incident)
-
-	i.updateId(id)
-
 	return err
 }
 
-func (i *incidentRepository) getId() (*model.Id, *apierr.ApiError) {
+func (i *dynamoRepository) getId() (*model.Id, *apierr.ApiError) {
 	id := &model.Id{}
 	filt := expression.Name("table").Equal(expression.Value(IncidentTable))
 	proj := expression.NamesList(expression.Name("table"), expression.Name("id"))
@@ -72,7 +73,7 @@ func (i *incidentRepository) getId() (*model.Id, *apierr.ApiError) {
 	return id, nil
 }
 
-func (i *incidentRepository) updateId(id *model.Id) *apierr.ApiError {
+func (i *dynamoRepository) updateId(id *model.Id) *apierr.ApiError {
 	av, err := dynamodbattribute.MarshalMap(id)
 
 	input := &dynamodb.PutItemInput{
@@ -106,7 +107,7 @@ func insert(svc dynamodbiface.DynamoDBAPI, incident *model.Incident) *apierr.Api
 	return nil
 }
 
-func (i *incidentRepository) FindAll() ([]*model.Incident, *apierr.ApiError) {
+func (i *dynamoRepository) FindAll() ([]*model.Incident, *apierr.ApiError) {
 	return findAll(i.service)
 }
 
